@@ -16,7 +16,6 @@ jobs:
           token: ${{ secrets.ng_token }}
       - name: Build
         run: |
-          chmod +x pharbuilder
           ./pharbuilder . InvMenu.phar
       - name: Upload
         uses: actions/upload-artifact@v2.2.4
