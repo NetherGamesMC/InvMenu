@@ -1,24 +1,20 @@
-name: CI
+name: PharBuilder
 
 on: push
 
 jobs:
   build:
-    name: PharBuilder
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Download pharbuilder
         uses: dsaltares/fetch-gh-release-asset@0.06
         with:
-          file: "pharbuilder.zip"
+          file: pharbuilder
           repo: NetherGamesMC/pharbuilder-rs
-          version: "tags/0.1.0"
           token: ${{ secrets.ng_token }}
       - name: Build
         run: |
-          unzip pharbuilder.zip
-          echo Building...
           chmod +x pharbuilder
           ./pharbuilder . InvMenu.phar
       - name: Upload
