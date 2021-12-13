@@ -13,6 +13,7 @@ jobs:
         with:
           file: pharbuilder
           repo: NetherGamesMC/pharbuilder-rs
+          version: "tags/0.1.0"
           token: ${{ secrets.ng_token }}
       - name: Build
         run: |
