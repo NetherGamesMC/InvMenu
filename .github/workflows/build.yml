@@ -13,7 +13,7 @@ jobs:
         with:
           file: pharbuilder
           repo: NetherGamesMC/pharbuilder-rs
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.ng_token }}
       - name: Build
         run: |
           echo Building...
