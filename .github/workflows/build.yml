@@ -11,15 +11,16 @@ jobs:
       - name: Download pharbuilder
         uses: dsaltares/fetch-gh-release-asset@0.06
         with:
-          file: "pharbuilder"
+          file: "pharbuilder.zip"
           repo: NetherGamesMC/pharbuilder-rs
           version: "tags/0.1.0"
           token: ${{ secrets.ng_token }}
       - name: Build
         run: |
+          unzip pharbuilder.zip
           echo Building...
           chmod +x pharbuilder
-          ./pharbuilder --input . --out InvMenu.phar
+          ./pharbuilder . InvMenu.phar
       - name: Upload
         uses: actions/upload-artifact@v2.2.4
         with:
