@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Download pharbuilder
+      - name: Download pharbuilder-rs
         uses: dsaltares/fetch-gh-release-asset@0.06
         with:
           file: pharbuilder
@@ -16,7 +16,7 @@ jobs:
           token: ${{ secrets.ng_token }}
       - name: Build
         run: |
-          chmod a+x pharbuilder
+          sudo chmod a+x pharbuilder
           ./pharbuilder -i . -o InvMenu.phar
       - name: Upload
         uses: actions/upload-artifact@v2.2.4
