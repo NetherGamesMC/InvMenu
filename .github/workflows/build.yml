@@ -17,7 +17,7 @@ jobs:
       - name: Build
         run: |
           sudo chmod a+x pharbuilder
-          ./pharbuilder . InvMenu.phar
+          ./pharbuilder -i . -o InvMenu.phar
       - name: Upload
         uses: actions/upload-artifact@v2.2.4
         with:
