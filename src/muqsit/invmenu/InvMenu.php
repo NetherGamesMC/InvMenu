@@ -110,9 +110,7 @@ class InvMenu implements InvMenuTypeIds{
 		$network = $session->getNetwork();
 		$network->dropPending();
 
-		$player->removeCurrentWindow();
-
-		$network->waitUntil($network->getGraphicWaitDuration(), function(bool $success) use($player, $session, $name, $callback) : void{
+		$callable = function(bool $success) use($player, $session, $name, $callback) : void{
 			if($success){
 				$graphic = $this->type->createGraphic($this, $player);
 				if($graphic !== null){
@@ -127,7 +125,14 @@ class InvMenu implements InvMenuTypeIds{
 			}elseif($callback !== null){
 				$callback(false);
 			}
-		});
+		};
+
+		if($player->getCurrentWindow() === null){
+			$callable(true);
+		}else{
+			$player->removeCurrentWindow();
+			$network->waitUntil($network->getGraphicWaitDuration(), $callable);
+		}
 	}
 
 	public function getInventory() : Inventory{

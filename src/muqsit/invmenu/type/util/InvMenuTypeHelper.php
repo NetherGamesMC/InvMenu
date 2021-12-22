@@ -13,7 +13,7 @@ final class InvMenuTypeHelper{
 		$offset = $player->getDirectionVector();
 		$size = $player->size;
 		$offset->x *= -(1 + $size->getWidth());
-		$offset->y *= -(1 + $size->getHeight());
+		$offset->y -= 2 + $size->getHeight();
 		$offset->z *= -(1 + $size->getWidth());
 		return $offset;
 	}
