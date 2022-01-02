@@ -9,12 +9,7 @@ use pocketmine\player\Player;
 
 final class InvMenuTypeHelper{
 
-	public static function getBehindPositionOffset(Player $player) : Vector3{
-		$offset = $player->getDirectionVector();
-		$size = $player->size;
-		$offset->x *= -(1 + $size->getWidth());
-		$offset->y -= 2 + $size->getHeight();
-		$offset->z *= -(1 + $size->getWidth());
-		return $offset;
+	public static function getBlockOffset() : Vector3{
+		return new Vector3(0, -2, 0);
 	}
 }

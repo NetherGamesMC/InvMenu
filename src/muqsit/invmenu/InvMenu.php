@@ -107,15 +107,18 @@ class InvMenu implements InvMenuTypeIds{
 	 */
 	final public function send(Player $player, ?string $name = null, ?Closure $callback = null) : void{
 		$session = InvMenuHandler::getPlayerManager()->get($player);
-		$network = $session->getNetwork();
-		$network->dropPending();
 
-		$callable = function(bool $success) use($player, $session, $name, $callback) : void{
+		$openGraphic = function(bool $success) use($player, $session, $name, $callback) : bool{
 			if($success){
 				$graphic = $this->type->createGraphic($this, $player);
 				if($graphic !== null){
-					$graphic->send($player, $name);
-					$session->setCurrentMenu(new InvMenuInfo($this, $graphic), $callback);
+				    $graphic->send($player, $name);
+				    $session->setCurrentMenu(new InvMenuInfo($this, $graphic), static function(bool $success) use($callback) : bool{
+						if($callback !== null){
+							$callback($success);
+						}
+						return false;
+					});
 				}else{
 					$session->removeCurrentMenu();
 					if($callback !== null){
@@ -125,13 +128,17 @@ class InvMenu implements InvMenuTypeIds{
 			}elseif($callback !== null){
 				$callback(false);
 			}
+			return false;
 		};
 
+		$network = $session->getNetwork();
 		if($player->getCurrentWindow() === null){
-			$callable(true);
-		}else{
 			$player->removeCurrentWindow();
-			$network->waitUntil($network->getGraphicWaitDuration(), $callable);
+			$openGraphic(true);
+		}elseif($session->getCurrent() === null){
+			$network->waitUntil(0, $openGraphic);
+		}else{
+			$network->waitUntil($network->getGraphicWaitDuration(), $openGraphic);
 		}
 	}
 
