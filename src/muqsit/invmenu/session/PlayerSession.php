@@ -46,8 +46,8 @@ final class PlayerSession{
 		$this->current = $current;
 
 		if($this->current !== null){
-			$this->network->waitUntil($this->current->graphic->getAnimationDuration(), function(bool $success) use($callback) : bool{
-				if($this->current !== null){
+			$this->network->waitUntil($this->current->graphic->getAnimationDuration(), function(bool $success) use($current, $callback) : bool{
+				if($this->current === $current){
 					if($success && $this->current->graphic->sendInventory($this->player, $this->current->menu->getInventory())){
 						if($callback !== null){
 							$callback(true);
