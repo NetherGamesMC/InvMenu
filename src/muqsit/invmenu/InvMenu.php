@@ -129,14 +129,14 @@ class InvMenu implements InvMenuTypeIds{
 							}
 							return false;
 						});
-                        return false;
+						return false;
 					}
 
-                    $session->removeCurrentMenu();
+					$session->removeCurrentMenu();
 				}
 			}
 
-            if($callback !== null){
+			if($callback !== null){
 				$callback(false);
 			}
 			return false;
