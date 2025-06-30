@@ -27,7 +27,7 @@ final class BlockFixedInvMenuType implements FixedInvMenuType{
 	}
 
 	public function createGraphic(InvMenu $menu, Player $player) : ?InvMenuGraphic{
-		$origin = $player->getPosition()->addVector(InvMenuTypeHelper::getBehindPositionOffset($player))->floor();
+		$origin = $player->getPosition()->addVector(InvMenuTypeHelper::getBehindPositionOffset())->floor();
 		if(!InvMenuTypeHelper::isValidYCoordinate($origin->y)){
 			return null;
 		}

@@ -9,5 +9,5 @@ use muqsit\invmenu\session\network\NetworkStackLatencyEntry;
 
 interface PlayerNetworkHandler{
 
-	public function createNetworkStackLatencyEntry(Closure $then) : NetworkStackLatencyEntry;
+	public function createNetworkStackLatencyEntry(Closure $then, int $protocolId) : NetworkStackLatencyEntry;
 }

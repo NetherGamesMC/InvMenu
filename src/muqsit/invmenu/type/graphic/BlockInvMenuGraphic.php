@@ -27,7 +27,14 @@ final class BlockInvMenuGraphic implements PositionedInvMenuGraphic{
 	}
 
 	public function send(Player $player, ?string $name) : void{
-		$player->getNetworkSession()->sendDataPacket(UpdateBlockPacket::create(BlockPosition::fromVector3($this->position), TypeConverter::getInstance()->getBlockTranslator()->internalIdToNetworkId($this->block->getStateId()), UpdateBlockPacket::FLAG_NETWORK, UpdateBlockPacket::DATA_LAYER_NORMAL));
+		$network = $player->getNetworkSession();
+
+		$network->sendDataPacket(UpdateBlockPacket::create(
+			BlockPosition::fromVector3($this->position),
+			TypeConverter::getInstance($network->getProtocolId())->getBlockTranslator()->internalIdToNetworkId($this->block->getStateId()),
+			UpdateBlockPacket::FLAG_NETWORK,
+			UpdateBlockPacket::DATA_LAYER_NORMAL
+		));
 	}
 
 	public function sendInventory(Player $player, Inventory $inventory) : bool{
@@ -36,7 +43,7 @@ final class BlockInvMenuGraphic implements PositionedInvMenuGraphic{
 
 	public function remove(Player $player) : void{
 		$network = $player->getNetworkSession();
-		foreach($player->getWorld()->createBlockUpdatePackets([$this->position]) as $packet){
+		foreach($player->getWorld()->createBlockUpdatePackets($network->getTypeConverter(), [$this->position]) as $packet){
 			$network->sendDataPacket($packet);
 		}
 	}

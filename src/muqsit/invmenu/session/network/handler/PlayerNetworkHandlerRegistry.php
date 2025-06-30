@@ -6,6 +6,7 @@ namespace muqsit\invmenu\session\network\handler;
 
 use Closure;
 use muqsit\invmenu\session\network\NetworkStackLatencyEntry;
+use pocketmine\network\mcpe\protocol\ProtocolInfo;
 use pocketmine\network\mcpe\protocol\types\DeviceOS;
 use function mt_rand;
 
@@ -17,13 +18,13 @@ final class PlayerNetworkHandlerRegistry{
 	private array $game_os_handlers = [];
 
 	public function __construct(){
-		$this->registerDefault(new ClosurePlayerNetworkHandler(static function(Closure $then) : NetworkStackLatencyEntry{
+		$this->registerDefault(new ClosurePlayerNetworkHandler(static function(Closure $then, int $protocolId) : NetworkStackLatencyEntry{
 			$timestamp = mt_rand();
-			return new NetworkStackLatencyEntry($timestamp * 1000000, $then, $timestamp);
+			return new NetworkStackLatencyEntry($timestamp * ($protocolId >= ProtocolInfo::PROTOCOL_1_20_10 ? 1000000 : 1000), $then, $timestamp);
 		}));
-		$this->register(DeviceOS::PLAYSTATION, new ClosurePlayerNetworkHandler(static function(Closure $then) : NetworkStackLatencyEntry{
+		$this->register(DeviceOS::PLAYSTATION, new ClosurePlayerNetworkHandler(static function(Closure $then, int $protocolId) : NetworkStackLatencyEntry{
 			$timestamp = mt_rand();
-			return new NetworkStackLatencyEntry($timestamp * 1000000, $then, $timestamp * 1000);
+			return new NetworkStackLatencyEntry($timestamp * ($protocolId >= ProtocolInfo::PROTOCOL_1_20_10 ? 1000000 : 1), $then, $timestamp * 1000);
 		}));
 	}
 

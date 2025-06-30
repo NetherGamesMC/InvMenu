@@ -35,7 +35,7 @@ final class DoublePairableBlockActorFixedInvMenuType implements FixedInvMenuType
 
 	public function createGraphic(InvMenu $menu, Player $player) : ?InvMenuGraphic{
 		$position = $player->getPosition();
-		$origin = $position->addVector(InvMenuTypeHelper::getBehindPositionOffset($player))->floor();
+		$origin = $position->addVector(InvMenuTypeHelper::getBehindPositionOffset())->floor();
 		if(!InvMenuTypeHelper::isValidYCoordinate($origin->y)){
 			return null;
 		}

@@ -44,7 +44,7 @@ final class PlayerNetwork{
 	 * @param Closure(bool) : bool $then
 	 */
 	public function wait(int $type, Closure $then) : void{
-		$entry = $this->handler->createNetworkStackLatencyEntry($then);
+		$entry = $this->handler->createNetworkStackLatencyEntry($then, $this->network_session->getProtocolId());
 		if($this->current !== null){
 			$this->queue->enqueue($entry);
 		}else{
